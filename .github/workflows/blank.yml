@@ -89,4 +89,4 @@ Write-Host " INSTALACAO FINALIZADA"
 Write-Host " Configure Sunshine e Tailscale"
 Write-Host "================================"
 
-Read-Host "Pressione ENTER para sair" 
+Read-Host "Pressione ENTER para sair"
