@@ -1,0 +1,92 @@
+# =====================================
+# CLOUD GAMER PC - WINDOWS
+# Instalador automatico
+# =====================================
+
+$ErrorActionPreference = "Continue"
+
+Write-Host "================================"
+Write-Host "       CLOUD GAMER PC"
+Write-Host "================================"
+
+# Verificar administrador
+$isAdmin = ([Security.Principal.WindowsPrincipal] `
+    [Security.Principal.WindowsIdentity]::GetCurrent()
+).IsInRole(
+    [Security.Principal.WindowsBuiltInRole]::Administrator
+)
+
+if (-not $isAdmin) {
+    Write-Host "Execute como administrador."
+    exit
+}
+
+# Verificar Winget
+if (!(Get-Command winget -ErrorAction SilentlyContinue)) {
+    Write-Host "Winget nao encontrado."
+    exit
+}
+
+# Atualizar programas
+winget source update
+
+# Instalar Steam
+winget install --id Valve.Steam `
+    --exact --silent `
+    --accept-package-agreements `
+    --accept-source-agreements
+
+# Instalar Epic Games
+winget install --id EpicGames.EpicGamesLauncher `
+    --exact --silent `
+    --accept-package-agreements `
+    --accept-source-agreements
+
+# Instalar Firefox
+winget install --id Mozilla.Firefox `
+    --exact --silent `
+    --accept-package-agreements `
+    --accept-source-agreements
+
+# Instalar 7-Zip
+winget install --id 7zip.7zip `
+    --exact --silent `
+    --accept-package-agreements `
+    --accept-source-agreements
+
+# Instalar Sunshine
+winget install --id LizardByte.Sunshine `
+    --exact --silent `
+    --accept-package-agreements `
+    --accept-source-agreements
+
+# Instalar Tailscale
+winget install --id Tailscale.Tailscale `
+    --exact --silent `
+    --accept-package-agreements `
+    --accept-source-agreements
+
+# Verificar GPU
+Write-Host "Verificando placa grafica..."
+
+Get-CimInstance Win32_VideoController |
+    Select-Object Name, DriverVersion
+
+# Verificar RAM
+Write-Host "Memoria RAM:"
+
+Get-CimInstance Win32_ComputerSystem |
+    Select-Object TotalPhysicalMemory
+
+# Verificar processador
+Write-Host "Processador:"
+
+Get-CimInstance Win32_Processor |
+    Select-Object Name
+
+Write-Host "================================"
+Write-Host " INSTALACAO FINALIZADA"
+Write-Host " Configure Sunshine e Tailscale"
+Write-Host "================================"
+
+Read-Host "Pressione ENTER para sair" 
